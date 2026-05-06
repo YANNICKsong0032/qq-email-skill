@@ -61,7 +61,9 @@ def main():
 
     # 构建邮件
     msg = MIMEMultipart()
-    msg["From"] = f"{cfg.get('name', 'AI助手')} <{cfg['email']}>"
+    # 中文名称需要 RFC2047 编码，邮箱地址不编码
+    from_name = Header(cfg.get('name', 'AI助手'), 'utf-8').encode()
+    msg["From"] = f"{from_name} <{cfg['email']}>"
     msg["To"] = args.to
     msg["Subject"] = Header(args.subject, "utf-8")
 
