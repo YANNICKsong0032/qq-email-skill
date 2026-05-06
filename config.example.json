@@ -1,0 +1,13 @@
+{
+  "email": "你的QQ邮箱@qq.com",
+  "password": "QQ邮箱授权码（不是QQ密码，在邮箱设置-账户-IMAP服务中生成）",
+  "smtp_server": "smtp.qq.com",
+  "smtp_port": 465,
+  "name": "发件人显示名称（可以是你的名字或任何你想显示的名称）",
+  "max_fetch": 10,
+  "skip_keywords": [
+    "noreply", "no-reply", "no_reply", "donotreply",
+    "mailer-daemon", "postmaster", "notifications",
+    "newsletter", "marketing", "alert"
+  ]
+}
