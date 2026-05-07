@@ -1,229 +1,220 @@
-# 📬 QQ 邮箱 Skill
+# 📬 QQ Email Skill
 
-> 为 AI Agent 提供 QQ 邮箱的**读取、分析、回复、管理**能力
+> Email superpowers for AI Agents — **read, analyze, reply, and manage** QQ Mail via IMAP/SMTP
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Python 3.7+](https://img.shields.io/badge/Python-3.7+-green.svg)](https://www.python.org/)
-[![No Dependencies](https://img.shields.io/badge/Dependencies-None-orange.svg)](#依赖)
+[![No Dependencies](https://img.shields.io/badge/Dependencies-None-orange.svg)](#dependencies)
 
 ---
 
-## ✨ 特性
+## ✨ Features
 
-- 📥 **智能读取** — 未读邮件、按发件人/主题/日期过滤
-- 📤 **自动回复** — SMTP 发送，含重复检查，避免二次回复
-- 📊 **统计摘要** — 收件箱概况、Top 发件人、热门主题
-- 🗂️ **邮件管理** — 标记已读/未读、批量操作、删除
-- 🔒 **安全守则** — 可自定义的信息过滤规则，防泄露
-- 🔄 **自动重试** — 网络抖动不怕，3 次重试兜底
-- 🧹 **HTML 转文本** — HTML 邮件自动转可读纯文本
-- ⚡ **IMAP 原生搜索** — 日期过滤不拉全量，大邮箱也秒出
-- 🛡️ **零依赖** — 纯标准库，`pip install` 不需要
+- 📥 **Smart Inbox** — Read unread emails, filter by sender / subject / date
+- 📤 **Auto Reply** — SMTP sending with duplicate check to avoid double replies
+- 📊 **Statistics** — Inbox overview, top senders, hot topics
+- 🗂️ **Mail Management** — Mark read / unread, batch operations, delete
+- 🔒 **Security Rules** — Customizable info filters to prevent data leaks
+- 🔄 **Auto Retry** — Network hiccups? 3 retries have your back
+- 🧹 **HTML → Text** — HTML emails auto-converted to readable plain text
+- ⚡ **Native IMAP Search** — Date filters without fetching everything; fast even for large inboxes
+- 🛡️ **Zero Dependencies** — Pure standard library, no `pip install` needed
 
-## 🚀 快速开始
+---
 
-### 1. 获取授权码
+## 🚀 Quick Start
 
-> QQ 邮箱 → 设置 → 账户 → POP3/IMAP/SMTP 服务 → 开启 IMAP → 生成授权码
+### 1. Get an Authorization Code
 
-### 2. 安装
+> QQ Mail → Settings → Account → POP3/IMAP/SMTP → Enable IMAP → Generate authorization code
+
+### 2. Install
 
 ```bash
 git clone https://github.com/YANNICKsong0032/qq-email-skill.git
 cd qq-email-skill
 cp config.example.json config.json
-# 编辑 config.json，填写你的 QQ 邮箱和授权码
+# Edit config.json with your QQ email and authorization code
 ```
 
-### 3. 验证
+### 3. Verify
 
 ```bash
 python3 scripts/setup.py
 ```
 
 ```
-🔍 QQ 邮箱 Skill 配置检查
+🔍 QQ Email Skill — Configuration Check
 
-📁 配置文件
-  ✅ 找到配置: config.json
-📋 配置内容
-  ✅ QQ邮箱地址: 123***
-  ✅ 授权码: abc***
-📬 IMAP 连接测试
-  ✅ IMAP 登录成功
-  ✅ 收件箱可读，共 42 封邮件
-  ✅ 未读邮件: 3 封
-📤 SMTP 连接测试
-  ✅ SMTP 登录成功
-🔒 安全守则
-  ✅ security.md 存在
+📁 Config File
+  ✅ Found: config.json
+📋 Config Contents
+  ✅ QQ Email: 123***
+  ✅ Auth Code: abc***
+📬 IMAP Connection Test
+  ✅ IMAP login succeeded
+  ✅ Inbox readable — 42 emails total
+  ✅ Unread: 3
+📤 SMTP Connection Test
+  ✅ SMTP login succeeded
+🔒 Security Rules
+  ✅ security.md exists
 
-🎉 一切就绪！
+🎉 All set!
 ```
 
-## 📖 使用方法
+---
 
-### 📥 读取邮件
+## 📖 Usage
+
+### 📥 Read Emails
 
 ```bash
-# 默认读取最新未读
+# Read latest unread (default)
 python3 scripts/read_emails.py
 
-# 按发件人过滤
+# Filter by sender
 python3 scripts/read_emails.py --from "boss@company.com"
 
-# 按主题关键词
-python3 scripts/read_emails.py --subject "会议"
+# Filter by subject keyword
+python3 scripts/read_emails.py --subject "meeting"
 
-# 最近 3 天（高效，IMAP 原生搜索）
+# Last 3 days (efficient — native IMAP search)
 python3 scripts/read_emails.py --days 3
 
-# 包含已读 + 不截断正文
+# Include read emails + full body
 python3 scripts/read_emails.py --all --raw
 
-# 组合使用
+# Combine filters
 python3 scripts/read_emails.py --from "client@xx.com" --days 7 --limit 20
 ```
 
-### 📤 回复邮件
+### 📤 Reply to Emails
 
 ```bash
 python3 scripts/reply_email.py \
   --to "sender@example.com" \
-  --subject "Re: 原主题" \
-  --body "收到，我看看~" \
-  --in-reply-to "<原邮件Message-ID>"
+  --subject "Re: Original Subject" \
+  --body "Got it, I'll take a look." \
+  --in-reply-to "<original-Message-ID>"
 ```
 
-- ✅ 自动记录到 `replied.json`，不会重复回复
-- 🔧 用 `--force` 跳过重复检查
+- ✅ Logged to `replied.json` — no duplicate replies
+- 🔧 Use `--force` to skip the duplicate check
 
-### 📊 收件箱统计
+### 📊 Inbox Summary
 
 ```bash
-python3 scripts/stats.py              # 最近 7 天
-python3 scripts/stats.py --days 30    # 最近 30 天
-python3 scripts/stats.py --top 5      # Top 5
+python3 scripts/stats.py
 ```
 
-```json
-{
-  "inbox_total": 42,
-  "unread": 3,
-  "last_7_days": 15,
-  "top_senders": [["老板", 8], ["GitHub", 5], ["Steam", 3]],
-  "top_subjects": [["周报", 4], ["PR Review", 3]]
-}
+```
+📬 邮箱统计 — 3762600312@qq.com
+
+📬 总邮件: 156 封
+📨 未读邮件: 8 封
+
+👤 Top 5 发件人:
+  1. GitHub <noreply@github.com> — 45 封
+  2. boss@company.com — 23 封
+  ...
+
+📌 热门主题:
+  1. "Pull Request" — 12 次
+  2. "会议通知" — 8 次
+  ...
 ```
 
-### 🗂️ 管理邮件
+---
 
-```bash
-python3 scripts/manage_email.py --action read --nums "1,2,3"    # 标记已读
-python3 scripts/manage_email.py --action unread --nums "1"      # 标记未读
-python3 scripts/manage_email.py --action read-all               # 全部已读
-python3 scripts/manage_email.py --action delete --nums "5,6"    # 删除
-```
-
-## ⚙️ 配置
-
-### 配置文件查找顺序
-
-| 优先级 | 路径 | 说明 |
-|--------|------|------|
-| 1 | `$QQ_EMAIL_CONFIG` | 环境变量指定 |
-| 2 | `./config.json` | Skill 目录下 |
-| 3 | `~/.openclaw/email-config.json` | 向后兼容 |
-
-### config.example.json
-
-```json
-{
-  "email": "你的QQ邮箱@qq.com",
-  "password": "QQ邮箱授权码",
-  "smtp_server": "smtp.qq.com",
-  "smtp_port": 465,
-  "name": "发件人显示名称",
-  "max_fetch": 10,
-  "skip_keywords": ["noreply", "no-reply", "mailer-daemon"]
-}
-```
-
-| 字段 | 必填 | 默认值 | 说明 |
-|------|------|--------|------|
-| `email` | ✅ | — | QQ 邮箱地址 |
-| `password` | ✅ | — | 授权码（不是 QQ 密码） |
-| `smtp_server` | ❌ | `smtp.qq.com` | SMTP 服务器 |
-| `smtp_port` | ❌ | `465` | SMTP 端口 |
-| `name` | ❌ | `AI助手` | 发件人显示名称 |
-| `max_fetch` | ❌ | `10` | 默认读取数量 |
-| `skip_keywords` | ❌ | 见示例 | 自动邮件过滤关键词 |
-
-## 🔒 安全
-
-编辑 `references/security.md` 自定义回复时的安全规则：
-
-- 禁止泄露的信息类别（密钥、个人信息、系统信息等）
-- 被问到敏感问题时的标准回复
-- 高风险场景处理策略
-
-## 📁 项目结构
+## 📁 File Structure
 
 ```
 qq-email-skill/
-├── SKILL.md                 ← 使用文档
-├── config.example.json      ← 配置模板
-├── .gitignore               ← 排除敏感文件
-├── LICENSE                  ← MIT
+├── SKILL.md                    # Skill definition (entry point)
+├── README.md                   # This file
+├── config.example.json         # Config template
+├── config.json                 # Your config (git-ignored)
+├── security.md                 # Security rules
+├── replied.json                # Reply log (auto-created)
 ├── scripts/
-│   ├── utils.py             ← 共享工具库
-│   ├── setup.py             ← 配置验证 & 连接测试
-│   ├── read_emails.py       ← 读取邮件
-│   ├── reply_email.py       ← 发送回复
-│   ├── manage_email.py      ← 标记管理
-│   └── stats.py             ← 统计摘要
+│   ├── read_emails.py          # Read & filter emails
+│   ├── reply_email.py          # Reply to emails
+│   ├── stats.py                # Inbox statistics
+│   ├── setup.py                # Configuration checker
+│   └── mark_as_read.py         # Mark emails as read
 └── references/
-    └── security.md          ← 安全守则（可自定义）
+    └── qq-email-auth.md        # Auth code setup guide
 ```
 
-## ❓ 常见问题
+---
 
-<details>
-<summary><b>IMAP 连接失败？</b></summary>
+## ⚙️ Configuration
 
-1. 确认已在 QQ 邮箱开启 IMAP/SMTP 服务
-2. 使用授权码，不是 QQ 密码
-3. 运行 `python3 scripts/setup.py` 诊断
-</details>
+`config.json`:
 
-<details>
-<summary><b>回复被跳过了？</b></summary>
+```json
+{
+  "email": "your@qq.com",
+  "auth_code": "your-authorization-code",
+  "imap_server": "imap.qq.com",
+  "smtp_server": "smtp.qq.com",
+  "max_retries": 3,
+  "retry_delay": 2
+}
+```
 
-邮件 ID 已在 `replied.json` 中记录。用 `--force` 强制发送。
-</details>
+| Field | Default | Description |
+|-------|---------|-------------|
+| `email` | — | Your QQ email address |
+| `auth_code` | — | IMAP/SMTP authorization code |
+| `imap_server` | `imap.qq.com` | IMAP server address |
+| `smtp_server` | `smtp.qq.com` | SMTP server address |
+| `max_retries` | `3` | Max retry attempts |
+| `retry_delay` | `2` | Seconds between retries |
 
-<details>
-<summary><b>HTML 邮件正文乱码？</b></summary>
+---
 
-脚本自动将 HTML 转为纯文本。极少数复杂排版可能丢失格式。
-</details>
+## 🔒 Security
 
-<details>
-<summary><b>怎么查看已发送邮件？</b></summary>
+See [`security.md`](security.md) for the full security rules. Key points:
 
-目前只支持收件箱。Sent 文件夹支持计划中。
-</details>
+- **Never log** authorization codes or passwords
+- **Filter sensitive info** before output (phone numbers, addresses, etc.)
+- **User confirmation** required before sending emails
+- **No auto-forwarding** to unknown addresses
 
-## 🤝 贡献
+---
 
-欢迎 Issue 和 PR！
+## 📦 Dependencies
 
-1. Fork 本仓库
-2. 创建特性分支 (`git checkout -b feature/xxx`)
-3. 提交更改 (`git commit -m 'feat: add xxx'`)
-4. 推送 (`git push origin feature/xxx`)
-5. 开 Pull Request
+**Zero.** Pure Python standard library:
+
+- `imaplib` — IMAP connection
+- `smtplib` — SMTP sending
+- `email` — Email parsing
+- `json` — Config & logs
+- `argparse` — CLI parsing
+
+---
+
+## 🤝 Contributing
+
+1. Fork this repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+---
 
 ## 📄 License
 
-[MIT](LICENSE) © 2026
+MIT License — see [LICENSE](LICENSE) for details.
+
+---
+
+## 🙏 Acknowledgments
+
+- Built for the [OpenClaw](https://github.com/openclaw/openclaw) agent ecosystem
+- Thanks to QQ Mail for providing IMAP/SMTP access
