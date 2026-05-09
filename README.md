@@ -105,7 +105,7 @@ python3 scripts/stats.py
 ```
 
 ```
-📬 Mailbox — 3762600312@qq.com
+📬 Mailbox — 1234567890@qq.com
 
 📬 Total: 156  |  📨 Unread: 8
 
